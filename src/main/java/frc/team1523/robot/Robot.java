@@ -4,6 +4,13 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
+// import team1523 custom classes
+import frc.team1523.robot.subsystems.Drivetrain;
+import frc.team1523.robot.subsystems.Climber;
+import frc.team1523.robot.subsystems.Intake;
+import frc.team1523.robot.subsystems.Shooter;
+import frc.team1523.robot.susbsystems.Turret;
+
 public class Robot extends TimedRobot {
     private RobotContainer robotContainer;
     private Command autonomousCommand;
