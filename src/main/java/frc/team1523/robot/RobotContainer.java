@@ -1,9 +1,11 @@
 package frc.team1523.robot;
 
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.team1523.robot.subsystems.*;
 
 public class RobotContainer {
     // Auto chooser, add additional autos here
@@ -11,7 +13,15 @@ public class RobotContainer {
     private static final String kCustomAuto = "My Auto";
     private final SendableChooser<String> chooser = new SendableChooser<>();
 
-    // Create subsystems here
+    private final XboxController m_primaryController = new XboxController(0);
+
+    // Create subsystems
+    private final Drivetrain m_drivetrain = new Drivetrain();
+    private final Intake m_intake = new Intake();
+    private final Limelight m_limelight = new Limelight();
+    private final Shooter m_shooter = new Shooter();
+    private final Turret m_turret = new Turret();
+
 
     public RobotContainer() {
         configureButtonBindings();
