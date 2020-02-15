@@ -1,10 +1,12 @@
 package frc.team1523.robot;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.team1523.robot.subsystems.*;
 
 public class RobotContainer {
@@ -13,14 +15,14 @@ public class RobotContainer {
     private static final String kCustomAuto = "My Auto";
     private final SendableChooser<String> chooser = new SendableChooser<>();
 
-    private final XboxController m_primaryController = new XboxController(0);
+    private final XboxController primaryController = new XboxController(0);
 
     // Create subsystems
-    private final Drivetrain m_drivetrain = new Drivetrain();
-    private final Intake m_intake = new Intake();
-    private final Limelight m_limelight = new Limelight();
-    private final Shooter m_shooter = new Shooter();
-    private final Turret m_turret = new Turret();
+    private final Drivetrain drivetrain = new Drivetrain();
+    private final Intake intake = new Intake();
+    private final Limelight limelight = new Limelight();
+    private final Shooter shooter = new Shooter();
+    private final Turret turret = new Turret();
 
 
     public RobotContainer() {
@@ -30,6 +32,12 @@ public class RobotContainer {
         chooser.setDefaultOption("Default Auto", kDefaultAuto);
         chooser.addOption("My Auto", kCustomAuto);
         Shuffleboard.getTab("Drive").add("Auto choicess", chooser);
+
+        drivetrain.setDefaultCommand(new RunCommand(() -> {
+            drivetrain.drive(primaryController.getY(GenericHID.Hand.kRight),
+                    primaryController.getX(GenericHID.Hand.kRight));
+        },
+                drivetrain));
     }
 
     private void configureButtonBindings() {
