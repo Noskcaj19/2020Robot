@@ -1,5 +1,6 @@
 package frc.team1523.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -16,6 +17,17 @@ public class Drivetrain extends SubsystemBase {
     SpeedController leftmotors = new SpeedControllerGroup(leftfront, leftrear);
     SpeedController rightmotors = new SpeedControllerGroup(rightfront, rightrear);
     private final DifferentialDrive m_robotDrive = new DifferentialDrive(leftmotors, rightmotors);
+
+    public Drivetrain() {
+        leftfront.configOpenloopRamp(.2);
+        leftfront.setNeutralMode(NeutralMode.Brake);
+        leftrear.configOpenloopRamp(.2);
+        leftrear.setNeutralMode(NeutralMode.Brake);
+        rightfront.configOpenloopRamp(.2);
+        rightfront.setNeutralMode(NeutralMode.Brake);
+        rightrear.configOpenloopRamp(.2);
+        rightrear.setNeutralMode(NeutralMode.Brake);
+    }
 
     public void drive(double xSpeed, double rotation){
         m_robotDrive.arcadeDrive(xSpeed, rotation);

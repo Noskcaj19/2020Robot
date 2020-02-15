@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.team1523.robot.subsystems.*;
 
 public class RobotContainer {
@@ -20,9 +21,10 @@ public class RobotContainer {
     // Create subsystems
     private final Drivetrain drivetrain = new Drivetrain();
     private final Intake intake = new Intake();
-    private final Limelight limelight = new Limelight();
+//    private final Limelight limelight = new Limelight();
     private final Shooter shooter = new Shooter();
     private final Turret turret = new Turret();
+
 
 
     public RobotContainer() {
@@ -34,8 +36,8 @@ public class RobotContainer {
         Shuffleboard.getTab("Drive").add("Auto choicess", chooser);
 
         drivetrain.setDefaultCommand(new RunCommand(() -> {
-            drivetrain.drive(primaryController.getY(GenericHID.Hand.kRight),
-                    primaryController.getX(GenericHID.Hand.kRight));
+            drivetrain.drive(-primaryController.getY(GenericHID.Hand.kLeft),
+                    primaryController.getX(GenericHID.Hand.kRight) * 0.8);
         },
                 drivetrain));
 
