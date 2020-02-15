@@ -38,6 +38,14 @@ public class RobotContainer {
                     primaryController.getX(GenericHID.Hand.kRight));
         },
                 drivetrain));
+
+        intake.setDefaultCommand(new RunCommand(() -> {
+            intake.setMotorSpeed(primaryController.getY(GenericHID.Hand.kLeft));
+        }, intake));
+
+        new JoystickButton(primaryController, XboxController.Button.kBumperRight.value).whenPressed
+                (new RunCommand(() -> shooter.setMotorSpeed(1))).whenReleased
+                (new RunCommand(() -> shooter.setMotorSpeed(0)));
     }
 
     private void configureButtonBindings() {
