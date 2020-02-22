@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.team1523.robot.subsystems.*;
 
+import java.awt.*;
+
 public class RobotContainer {
     // Auto chooser, add additional autos here
     private static final String kDefaultAuto = "Default";
@@ -17,6 +19,9 @@ public class RobotContainer {
     private final SendableChooser<String> chooser = new SendableChooser<>();
 
     private final XboxController primaryController = new XboxController(0);
+    private final XboxController alternateController = new XboxController(1);
+
+
 
     // Create subsystems
     private final Drivetrain drivetrain = new Drivetrain();
@@ -24,6 +29,9 @@ public class RobotContainer {
 //    private final Limelight limelight = new Limelight();
     private final Shooter shooter = new Shooter();
     private final Turret turret = new Turret();
+    private final ColorWheel colorWheel= new ColorWheel();
+
+
 
 
 
@@ -37,17 +45,28 @@ public class RobotContainer {
 
         drivetrain.setDefaultCommand(new RunCommand(() -> {
             drivetrain.drive(-primaryController.getY(GenericHID.Hand.kLeft),
-                    primaryController.getX(GenericHID.Hand.kRight) * 0.8);
+                    primaryController.getX(GenericHID.Hand.kLeft) * 0.8);
         },
                 drivetrain));
 
         intake.setDefaultCommand(new RunCommand(() -> {
-            intake.setMotorSpeed(primaryController.getY(GenericHID.Hand.kRight));
+            intake.setIntakeSpeed(primaryController.getY(GenericHID.Hand.kRight));
+            intake.setWristSpeed(-alternateController.getY(GenericHID.Hand.kRight));
         }, intake));
+
+        colorWheel.setDefaultCommand(new RunCommand(() -> {
+            colorWheel.setExtendSpeed(alternateController.getX(GenericHID.Hand.kRight));
+            colorWheel.setSpinySpeed(alternateController.getX(GenericHID.Hand.kLeft));
+        }, colorWheel));
+
+
 
         new JoystickButton(primaryController, XboxController.Button.kBumperRight.value).whenPressed
                 (new RunCommand(() -> shooter.setMotorSpeed(1))).whenReleased
                 (new RunCommand(() -> shooter.setMotorSpeed(0)));
+
+
+
     }
 
     private void configureButtonBindings() {

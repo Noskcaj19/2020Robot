@@ -10,8 +10,16 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 public class Intake extends SubsystemBase {
     CANSparkMax intake = new CANSparkMax(7, CANSparkMaxLowLevel.MotorType.kBrushed);
+    CANSparkMax wristcontroller = new CANSparkMax(8, CANSparkMaxLowLevel.MotorType.kBrushed);
 
-    public void setMotorSpeed(double speed){
+
+    public void setWristSpeed(double speed){
+        wristcontroller.set(speed);
+
+    }
+
+
+    public void setIntakeSpeed(double speed){
         intake.set(speed);
 
 
