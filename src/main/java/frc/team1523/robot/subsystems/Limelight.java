@@ -10,10 +10,9 @@ package frc.team1523.robot.subsystems;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-import static frc.team1523.robot.Constants.LimelightConstants.*;
 
 public class Limelight extends SubsystemBase {
     // Create a network table for the limelight
@@ -25,6 +24,33 @@ public class Limelight extends SubsystemBase {
     // target is below. Measured in degrees
     private double targetArea; // Returns a value of the percentage of the image the target takes
     private double targetValue; // Sends 1 if a target is detected, 0 if none are present
+
+
+    private NetworkTableEntry limelightXOffsetEntry = Shuffleboard.getTab("Limelight data")
+            .add("Limelight X Offset", xOffset)
+            .getEntry();
+
+    private NetworkTableEntry limelightYOffsetEntry = Shuffleboard.getTab("Limelight data")
+            .add("Limelight Y Offset", yOffset)
+            .getEntry();
+
+    private NetworkTableEntry limelightAreaPercentageEntry = Shuffleboard.getTab("Limelight data")
+            .add("Limelight Area Percentage", targetArea)
+            .getEntry();
+
+    private NetworkTableEntry limelightTargetCenteredEntry = Shuffleboard.getTab("Limelight data")
+            .add("Target Centered", isTargetCentered())
+            .withWidget(BuiltInWidgets.kBooleanBox)
+            .getEntry();
+
+    private NetworkTableEntry limelightTargetDetectedEntry = Shuffleboard.getTab("Limelight data")
+            .add("Target Detected", isTargetDetected())
+            .withWidget(BuiltInWidgets.kBooleanBox)
+            .getEntry();
+
+//    private NetworkTableEntry limelightDistanceEntry = Shuffleboard.getTab("Limelight data")
+//            .add("Distance (INCHES)", limelightDistance())
+//            .getEntry();
 
     public Limelight() {
         // Gets the network table for the limelight
@@ -62,7 +88,8 @@ public class Limelight extends SubsystemBase {
      * offset angle of the limelight in degrees
      */
     public double limelightAngle() {
-        return (kLimelightAngle + yOffset);
+        throw new UnsupportedOperationException();
+//        return (kLimelightAngle + yOffset);
     }
 
     /**
@@ -70,7 +97,8 @@ public class Limelight extends SubsystemBase {
      * distance)
      */
     public double limelightDistance() {
-        return (kPortHeight - kLimelightHeight) / Math.tan(Math.toRadians(kLimelightAngle + yOffset) + kLimelightOffset);
+        throw new UnsupportedOperationException();
+//        return (kPortHeight - kLimelightHeight) / Math.tan(Math.toRadians(kLimelightAngle + yOffset) + kLimelightOffset);
     }
 
     /**
@@ -105,18 +133,17 @@ public class Limelight extends SubsystemBase {
         yOffset = m_limelightTable.getEntry("ty").getDouble(0.0);
         targetArea = m_limelightTable.getEntry("ta").getDouble(0.0);
         targetValue = m_limelightTable.getEntry("tv").getDouble(0.0);
-
     }
 
     public void log() {
         // Updates the SmartDashboard with limelight values
-        Shuffleboard.getTab("Limelight data").add("LimelightXOffset", xOffset);
-        Shuffleboard.getTab("Limelight data").add("LimelightYOffset", yOffset);
+        limelightXOffsetEntry.setNumber(xOffset);
+        limelightYOffsetEntry.setNumber(yOffset);
 
-        Shuffleboard.getTab("Limelight data").add("LimelightAreaPercentage", targetArea);
-        Shuffleboard.getTab("Limelight data").add("Target Centered", isTargetCentered());
-        Shuffleboard.getTab("Limelight data").add("Target Detected", isTargetDetected());
-        Shuffleboard.getTab("Limelight data").add("Distance (INCHES)", limelightDistance());
+        limelightAreaPercentageEntry.setNumber(targetArea);
+        limelightTargetCenteredEntry.setBoolean(isTargetCentered());
+        limelightTargetDetectedEntry.setBoolean(isTargetDetected());
+//        limelightDistanceEntry.setNumber(limelightDistance());
     }
 
     @Override
