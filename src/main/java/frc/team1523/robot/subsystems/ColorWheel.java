@@ -14,5 +14,4 @@ public class ColorWheel extends SubsystemBase {
     public void setSpinySpeed(double speed) {
         spinyWheel.set(speed);
     }
-
 }

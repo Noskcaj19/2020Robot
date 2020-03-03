@@ -9,29 +9,27 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Drivetrain extends SubsystemBase {
-    private final WPI_TalonFX leftfront = new WPI_TalonFX(2);
-    private final WPI_TalonFX rightrear = new WPI_TalonFX(3);
-    private final WPI_TalonSRX leftrear = new WPI_TalonSRX(4);
-    private final WPI_TalonSRX rightfront = new WPI_TalonSRX(5);
+    private final WPI_TalonFX leftFront = new WPI_TalonFX(2);
+    private final WPI_TalonFX rightRear = new WPI_TalonFX(3);
+    private final WPI_TalonSRX leftRear = new WPI_TalonSRX(4);
+    private final WPI_TalonSRX rightFront = new WPI_TalonSRX(5);
 
-    SpeedController leftmotors = new SpeedControllerGroup(leftfront, leftrear);
-    SpeedController rightmotors = new SpeedControllerGroup(rightfront, rightrear);
-    private final DifferentialDrive m_robotDrive = new DifferentialDrive(leftmotors, rightmotors);
+    SpeedController leftMotors = new SpeedControllerGroup(leftFront, leftRear);
+    SpeedController rightMotors = new SpeedControllerGroup(rightFront, rightRear);
+    private final DifferentialDrive robotDrive = new DifferentialDrive(leftMotors, rightMotors);
 
     public Drivetrain() {
-        leftfront.configOpenloopRamp(.2);
-        leftfront.setNeutralMode(NeutralMode.Brake);
-        leftrear.configOpenloopRamp(.2);
-        leftrear.setNeutralMode(NeutralMode.Brake);
-        rightfront.configOpenloopRamp(.2);
-        rightfront.setNeutralMode(NeutralMode.Brake);
-        rightrear.configOpenloopRamp(.2);
-        rightrear.setNeutralMode(NeutralMode.Brake);
+        leftFront.configOpenloopRamp(.2);
+        rightRear.configOpenloopRamp(.2);
+        leftRear.configOpenloopRamp(.2);
+        rightFront.configOpenloopRamp(.2);
+        leftFront.setNeutralMode(NeutralMode.Brake);
+        rightRear.setNeutralMode(NeutralMode.Brake);
+        leftRear.setNeutralMode(NeutralMode.Brake);
+        rightFront.setNeutralMode(NeutralMode.Brake);
     }
 
-    public void drive(double xSpeed, double rotation){
-        m_robotDrive.arcadeDrive(xSpeed, rotation);
+    public void drive(double xSpeed, double rotation) {
+        robotDrive.arcadeDrive(xSpeed, rotation);
     }
-
-
 }

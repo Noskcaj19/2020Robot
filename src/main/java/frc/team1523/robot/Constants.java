@@ -8,5 +8,4 @@ public final class Constants {
         public static final int kLimelightAngle = 0;
         public static final int kLimelightOffset = 0;
     }
-
 }
