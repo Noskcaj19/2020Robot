@@ -12,11 +12,11 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpiutil.math.MathUtil;
 
 public class Limelight extends SubsystemBase {
-    // Create a network table for the limelight
-    private final NetworkTable m_limelightTable;
     // Create variables for the different values given from the limelight
     private double xOffset; // Positive values mean that target is to the right of the camera; negative
     // values mean target is to the left. Measured in degrees
@@ -24,40 +24,37 @@ public class Limelight extends SubsystemBase {
     // target is below. Measured in degrees
     private double targetArea; // Returns a value of the percentage of the image the target takes
     private double targetValue; // Sends 1 if a target is detected, 0 if none are present
-
-
-    private NetworkTableEntry limelightXOffsetEntry = Shuffleboard.getTab("Limelight data")
+    // Create a network table for the limelight
+    private NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
+    private ShuffleboardTab limelightTab = Shuffleboard.getTab("Limelight data");
+    private NetworkTableEntry limelightXOffsetEntry = limelightTab
             .add("Limelight X Offset", xOffset)
             .getEntry();
-
-    private NetworkTableEntry limelightYOffsetEntry = Shuffleboard.getTab("Limelight data")
+    private NetworkTableEntry limelightYOffsetEntry = limelightTab
             .add("Limelight Y Offset", yOffset)
             .getEntry();
-
-    private NetworkTableEntry limelightAreaPercentageEntry = Shuffleboard.getTab("Limelight data")
+    private NetworkTableEntry limelightAreaPercentageEntry = limelightTab
             .add("Limelight Area Percentage", targetArea)
             .getEntry();
-
-    private NetworkTableEntry limelightTargetCenteredEntry = Shuffleboard.getTab("Limelight data")
+    private NetworkTableEntry limelightTargetCenteredEntry = limelightTab
             .add("Target Centered", isTargetCentered())
             .withWidget(BuiltInWidgets.kBooleanBox)
             .getEntry();
-
-    private NetworkTableEntry limelightTargetDetectedEntry = Shuffleboard.getTab("Limelight data")
+    private NetworkTableEntry limelightTargetDetectedEntry = limelightTab
             .add("Target Detected", isTargetDetected())
             .withWidget(BuiltInWidgets.kBooleanBox)
             .getEntry();
+    private NetworkTableEntry limelightLedEntry = NetworkTableInstance.getDefault()
+            .getTable("limelight")
+            .getEntry("ledMode");
 
 //    private NetworkTableEntry limelightDistanceEntry = Shuffleboard.getTab("Limelight data")
 //            .add("Distance (INCHES)", limelightDistance())
 //            .getEntry();
 
     public Limelight() {
-        // Gets the network table for the limelight
-        m_limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
-
         // Reset the default settings and pipelines to the Limelight
-        NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(0);
+        limelightTable.getEntry("pipeline").setNumber(0);
     }
 
     /**
@@ -107,7 +104,7 @@ public class Limelight extends SubsystemBase {
      * @return pipelineValue
      */
     public double getPipeline() {
-        NetworkTableEntry pipeline = m_limelightTable.getEntry("Pipeline");
+        NetworkTableEntry pipeline = limelightTable.getEntry("Pipeline");
         return pipeline.getDouble(0.0);
     }
 
@@ -118,21 +115,37 @@ public class Limelight extends SubsystemBase {
      * @param pipeline Which pipeline to use on the limelight (0-9)
      */
     public void setPipeline(int pipeline) {
-        NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(pipeline);
-        m_limelightTable.getEntry("Pipeline").setValue(pipeline);
-        if (pipeline < 0) {
-            pipeline = 0;
-        } else if (pipeline > 9) {
-            pipeline = 9;
-        }
+        int clampedPipeline = MathUtil.clamp(pipeline, 0, 9);
+        limelightTable.getEntry("Pipeline").setValue(clampedPipeline);
+    }
+
+    /**
+     * Enable the leds on the limelight
+     */
+    public void enableLeds() {
+        limelightLedEntry.setNumber(LimelightConstants.kLedEnabled);
+    }
+
+    /**
+     * Disabled the leds on the limelight
+     */
+    public void disableLeds() {
+        limelightLedEntry.setNumber(LimelightConstants.kLedDisabled);
+    }
+
+    /**
+     * Blink the leds on the limelight
+     */
+    public void blinkLeds() {
+        limelightLedEntry.setNumber(LimelightConstants.kLedBlink);
     }
 
     public void updateLimelight() {
         // Updates the values of the limelight on the network table
-        xOffset = m_limelightTable.getEntry("tx").getDouble(0.0);
-        yOffset = m_limelightTable.getEntry("ty").getDouble(0.0);
-        targetArea = m_limelightTable.getEntry("ta").getDouble(0.0);
-        targetValue = m_limelightTable.getEntry("tv").getDouble(0.0);
+        xOffset = limelightTable.getEntry("tx").getDouble(0.0);
+        yOffset = limelightTable.getEntry("ty").getDouble(0.0);
+        targetArea = limelightTable.getEntry("ta").getDouble(0.0);
+        targetValue = limelightTable.getEntry("tv").getDouble(0.0);
     }
 
     public void log() {
@@ -151,5 +164,11 @@ public class Limelight extends SubsystemBase {
         // This method will be called once per scheduler run
         updateLimelight();
         log();
+    }
+
+    public static final class LimelightConstants {
+        public static final int kLedDisabled = 1;
+        public static final int kLedBlink = 2;
+        public static final int kLedEnabled = 3;
     }
 }
