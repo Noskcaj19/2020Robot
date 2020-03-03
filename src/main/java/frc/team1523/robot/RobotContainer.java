@@ -26,7 +26,7 @@ public class RobotContainer {
     // Create subsystems
     private final Drivetrain drivetrain = new Drivetrain();
     private final Intake intake = new Intake();
-//    private final Limelight limelight = new Limelight();
+    private final Limelight limelight = new Limelight();
     private final Shooter shooter = new Shooter();
     private final Turret turret = new Turret();
     private final ColorWheel colorWheel= new ColorWheel();
