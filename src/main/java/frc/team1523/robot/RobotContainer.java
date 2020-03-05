@@ -27,6 +27,7 @@ public class RobotContainer {
     private final Shooter shooter = new Shooter();
     private final Turret turret = new Turret();
     private final ColorWheel colorWheel = new ColorWheel();
+    private final Leds leds = new Leds();
 
 
     public RobotContainer() {
