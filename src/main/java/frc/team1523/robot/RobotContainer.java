@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.team1523.robot.commands.TurnCommand;
 import frc.team1523.robot.subsystems.*;
 
 public class RobotContainer {
@@ -63,7 +64,7 @@ public class RobotContainer {
         String m_autoSelected = chooser.getSelected();
         switch (m_autoSelected) {
             case kCustomAuto:
-                return new InstantCommand();
+                return new TurnCommand(90, drivetrain);
             case kDefaultAuto:
             default:
                 return new InstantCommand();
