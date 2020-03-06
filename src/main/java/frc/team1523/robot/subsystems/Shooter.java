@@ -27,6 +27,13 @@ public class Shooter extends SubsystemBase {
         }
     }
 
+    // set speed for testing
+    public void testingSetMotorSpeed(double speed) {
+        shooterMotor.set(speed);
+        shooterFeeder.set(speed * .75);
+        intakeAgitator.set(speed * .75);
+    }
+
     public void enableShooter() {
         shooting = true;
         shooterMotor.set(Constants.ShooterConstants.kFlywheelSpeed);

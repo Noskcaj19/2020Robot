@@ -7,7 +7,11 @@ public class Intake extends SubsystemBase {
     private final CANSparkMax intake = new CANSparkMax(7, CANSparkMax.MotorType.kBrushed);
     private final CANSparkMax wristcontroller = new CANSparkMax(9, CANSparkMax.MotorType.kBrushed);
 
-//    public Intake() {
+    public Intake() {
+        wristcontroller.setInverted(true);
+    }
+
+    //    public Intake() {
 //        super(new PIDController(0.0256, 0.0, 0.0));
 //    }
 

@@ -45,13 +45,12 @@ public class RobotContainer {
 
         intake.setDefaultCommand(new RunCommand(() -> {
             intake.setIntakeSpeed(primaryController.getY(GenericHID.Hand.kRight));
-            intake.setWristSpeed(-alternateController.getY(GenericHID.Hand.kRight));
+            intake.setWristSpeed(alternateController.getY(GenericHID.Hand.kLeft));
         }, intake));
 
-        colorWheel.setDefaultCommand(new RunCommand(() -> {
-            colorWheel.setExtendSpeed(alternateController.getX(GenericHID.Hand.kRight));
-            colorWheel.setSpinySpeed(alternateController.getX(GenericHID.Hand.kLeft));
-        }, colorWheel));
+        shooter.setDefaultCommand(new RunCommand(() -> {
+            shooter.testingSetMotorSpeed(alternateController.getY(GenericHID.Hand.kRight));
+        }, shooter));
     }
 
     private void configureButtonBindings() {
