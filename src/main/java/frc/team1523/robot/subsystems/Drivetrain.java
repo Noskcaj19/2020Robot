@@ -15,8 +15,8 @@ public class Drivetrain extends SubsystemBase {
     private final WPI_TalonFX rightFront = new WPI_TalonFX(5);
     private final AHRS navx = new AHRS();
 
-    SpeedController leftMotors = new SpeedControllerGroup(leftFront, leftRear);
-    SpeedController rightMotors = new SpeedControllerGroup(rightFront, rightRear);
+    private final SpeedController leftMotors = new SpeedControllerGroup(leftFront, leftRear);
+    private final SpeedController rightMotors = new SpeedControllerGroup(rightFront, rightRear);
     private final DifferentialDrive robotDrive = new DifferentialDrive(leftMotors, rightMotors);
 
     public Drivetrain() {
