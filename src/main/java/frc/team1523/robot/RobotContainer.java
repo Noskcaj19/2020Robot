@@ -8,8 +8,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.team1523.robot.commands.DefaultDriveCommand;
 import frc.team1523.robot.commands.TurnCommand;
 import frc.team1523.robot.subsystems.*;
@@ -46,8 +46,12 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(new DefaultDriveCommand(primaryController, drivetrain));
 
         intake.setDefaultCommand(new RunCommand(() -> {
-//            intake.setIntakeSpeed(primaryController.getY(GenericHID.Hand.kRight));
-            intake.setWristSpeed(alternateController.getY(GenericHID.Hand.kLeft));
+            intake.setIntakeSpeed(-alternateController.getY(GenericHID.Hand.kLeft));
+            double raw = -alternateController.getY(GenericHID.Hand.kRight);
+            double wrist = MathUtil.clamp(Math.copySign(
+                    Math.pow(raw, 2), raw),
+                    -.42, .42);
+            intake.setWristSpeed(wrist);
         }, intake));
 
 //        shooter.setDefaultCommand(new RunCommand(() -> {
@@ -60,12 +64,14 @@ public class RobotContainer {
                 .whenPressed(new InstantCommand(shooter::enableShooter))
                 .whenReleased(new InstantCommand(shooter::disableShooter));
 
-        new JoystickButton(primaryController, XboxController.Button.kBumperLeft.value)
-                .whenPressed(new InstantCommand(() -> intake.setIntakeSpeed(-1)))
-                .whenReleased(new InstantCommand(() -> intake.setIntakeSpeed(0)));
-
         new JoystickButton(primaryController, XboxController.Button.kA.value)
                 .whileActiveContinuous(new RunCommand(drivetrain::alarm));
+
+        new JoystickButton(primaryController, XboxController.Button.kStart.value)
+                .whenPressed(new InstantCommand(limelight::enableLeds));
+
+        new JoystickButton(primaryController, XboxController.Button.kBack.value)
+                .whenPressed(new InstantCommand(limelight::disableLeds));
     }
 
     public Command getAutonomousCommand() {

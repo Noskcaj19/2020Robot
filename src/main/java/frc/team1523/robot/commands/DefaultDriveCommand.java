@@ -41,8 +41,8 @@ public class DefaultDriveCommand extends CommandBase {
             // negative values when we push forward.
             double rawX = primaryController.getX(GenericHID.Hand.kLeft);
 
-            final double xSpeed =
-                    speedLimiter.calculate(deadband(rawX, .09))
+            final double rot =
+                    speedLimiter.calculate(deadband(rawX, .1))
                             * Constants.DriveConstants.kMaxSpeed;
 
             // Get the rate of angular rotation. We are inverting this because we want a
@@ -50,8 +50,8 @@ public class DefaultDriveCommand extends CommandBase {
             // mathematics). Xbox controllers return positive values when you pull to
             // the right by default.
             double rawY = primaryController.getY(GenericHID.Hand.kRight);
-            final double rot =
-                    rotLimiter.calculate(deadband(rawY, .09))
+            final double xSpeed =
+                    rotLimiter.calculate(deadband(rawY, .1))
                             * Constants.DriveConstants.kMaxAngularSpeed;
 
             drivetrain.fancyDrive(xSpeed, rot);

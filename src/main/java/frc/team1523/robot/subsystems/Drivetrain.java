@@ -91,7 +91,7 @@ public class Drivetrain extends SubsystemBase {
      * @param xSpeed Linear velocity in m/s.
      * @param rot    Angular velocity in rad/s.
      */
-    public void fancyDrive(double xSpeed, double rot) {
+    public void fancyDrive(double rot, double xSpeed) {
         var wheelSpeeds = kinematics.toWheelSpeeds(new ChassisSpeeds(xSpeed, 0.0, rot));
         setSpeeds(wheelSpeeds);
     }
