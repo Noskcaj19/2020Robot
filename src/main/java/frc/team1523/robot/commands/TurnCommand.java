@@ -12,7 +12,7 @@ public class TurnCommand extends PIDCommand {
         super(new PIDController(0.04, 0.001, 0.0),
                 drivetrain::getAngle,
                 targetAngle,
-                (double turn) -> drivetrain.drive(0, turn),
+                (double turn) -> drivetrain.boringDrive(0, turn),
                 drivetrain);
 
         this.drivetrain = drivetrain;
