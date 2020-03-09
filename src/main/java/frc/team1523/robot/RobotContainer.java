@@ -1,5 +1,6 @@
 package frc.team1523.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.XboxController;
@@ -57,6 +58,8 @@ public class RobotContainer {
 //        shooter.setDefaultCommand(new RunCommand(() -> {
 //            shooter.testingSetMotorSpeed(alternateController.getY(GenericHID.Hand.kRight));
 //        }, shooter));
+
+        CameraServer.getInstance().startAutomaticCapture();
     }
 
     private void configureButtonBindings() {
