@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.team1523.robot.Constants;
 
@@ -38,7 +37,10 @@ public class Drivetrain extends SubsystemBase {
 
     private final DifferentialDriveKinematics kinematics
             = new DifferentialDriveKinematics(Constants.DriveConstants.kTrackWidth);
-    private final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.175, 2.43, 0.25);
+    // practice bot
+//    private final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.175, 2.43, 0.25);
+    // comp bot
+    private final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(.138, 2.45, .265);
 
     private int x = 0;
 
@@ -60,11 +62,11 @@ public class Drivetrain extends SubsystemBase {
     }
 
     public void alarm() {
-        leftRear.set(ControlMode.MusicTone, x + 250);
-        leftFront.set(ControlMode.MusicTone, x + 250);
-        rightRear.set(ControlMode.MusicTone, x + 250);
-        rightFront.set(ControlMode.MusicTone, x + 250);
-        x = (x + 3) % 150;
+        leftRear.set(ControlMode.MusicTone, x + 450);
+        leftFront.set(ControlMode.MusicTone, x + 450);
+        rightRear.set(ControlMode.MusicTone, x + 450);
+        rightFront.set(ControlMode.MusicTone, x + 450);
+        x = (x + 8) % 150;
     }
 
     public double getAngle() {
