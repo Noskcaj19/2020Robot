@@ -13,8 +13,9 @@ public final class Constants {
     }
 
     public static final class LimelightConstants {
-        public static final int kPortHeight = 0;
-        public static final int kLimelightHeight = 0;
+        //measurements in inches
+        public static final int kPortHeight = 24;
+        public static final int kLimelightHeight = 28;
         public static final int kLimelightAngle = 0;
         public static final int kLimelightOffset = 0;
     }
