@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.team1523.robot.commands.DefaultDriveCommand;
+import frc.team1523.robot.commands.LimelightTurnToTarget;
 import frc.team1523.robot.commands.TurnCommand;
 import frc.team1523.robot.subsystems.*;
 
@@ -72,6 +73,9 @@ public class RobotContainer {
 
         new JoystickButton(primaryController, XboxController.Button.kBack.value)
                 .whenPressed(new InstantCommand(limelight::disableLeds));
+
+        new JoystickButton(primaryController, XboxController.Button.kB.value)
+                .whileActiveContinuous(new LimelightTurnToTarget(drivetrain, limelight));
     }
 
     public Command getAutonomousCommand() {
