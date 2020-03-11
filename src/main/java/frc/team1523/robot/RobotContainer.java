@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.team1523.robot.commands.DefaultDriveCommand;
 import frc.team1523.robot.commands.DeployLift;
 import frc.team1523.robot.commands.LimelightTurnToTarget;
@@ -50,10 +49,9 @@ public class RobotContainer {
         intake.setDefaultCommand(new RunCommand(() -> {
             intake.setIntakeSpeed(-alternateController.getY(GenericHID.Hand.kLeft));
             double raw = -alternateController.getY(GenericHID.Hand.kRight);
-            double wrist = MathUtil.clamp(Math.copySign(
-                    Math.pow(raw, 2), raw),
-                    -.42, .42);
-            intake.setWristSpeed(wrist);
+            double wrist = Math.copySign(Math.pow(raw, 2), raw);
+
+            intake.setWristSetpoint(intake.getWristSetpoint() + (wrist * 6));
         }, intake));
 
 //        shooter.setDefaultCommand(new RunCommand(() -> {
