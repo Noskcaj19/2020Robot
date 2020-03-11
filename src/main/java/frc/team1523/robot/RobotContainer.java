@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.team1523.robot.commands.DefaultDriveCommand;
+import frc.team1523.robot.commands.DeployLift;
 import frc.team1523.robot.commands.LimelightTurnToTarget;
 import frc.team1523.robot.commands.TurnCommand;
 import frc.team1523.robot.subsystems.*;
@@ -31,6 +32,8 @@ public class RobotContainer {
     private final Limelight limelight = new Limelight();
     private final Shooter shooter = new Shooter();
     private final Leds leds = new Leds();
+    private final Lift lift = new Lift();
+    private final Climb climb = new Climb();
 
 
     public RobotContainer() {
@@ -74,6 +77,16 @@ public class RobotContainer {
 
         new JoystickButton(primaryController, XboxController.Button.kB.value)
                 .whileActiveContinuous(new LimelightTurnToTarget(drivetrain, limelight));
+
+        new JoystickButton(alternateController, XboxController.Button.kX.value)
+                .whileActiveContinuous(new DeployLift(lift, false));
+
+        new JoystickButton(alternateController, XboxController.Button.kY.value)
+                .whileActiveContinuous(new DeployLift(lift, true));
+
+        new JoystickButton(alternateController, XboxController.Button.kB.value)
+                .whenPressed(new InstantCommand(climb::startClimbing, climb))
+                .whenReleased(new InstantCommand(climb::stopClimbing, climb));
     }
 
     public Command getAutonomousCommand() {

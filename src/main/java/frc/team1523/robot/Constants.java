@@ -3,7 +3,11 @@ package frc.team1523.robot;
 // Define constants here as `static final`s
 public final class Constants {
     public static final class IntakeConstants {
-        public static final int kWristRange = 100;
+        public static final int kWristRange = 125;
+    }
+
+    public static final class LiftConstants {
+        public static final int kLiftMax = 2125;
     }
 
     public static final class ShooterConstants {
