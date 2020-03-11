@@ -1,6 +1,7 @@
 package frc.team1523.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.XboxController;
@@ -35,9 +36,14 @@ public class RobotContainer {
     private final Lift lift = new Lift();
     private final Climb climb = new Climb();
 
+    private final NetworkTableEntry climbReversalEnabledEntry = Shuffleboard.getTab("Debug")
+            .add("Climb whinch reversal", false)
+            .getEntry();
 
     public RobotContainer() {
         configureButtonBindings();
+
+        climbReversalEnabledEntry.setBoolean(false);
 
         chooser.setDefaultOption("Default Auto", kDefaultAuto);
         chooser.addOption("My Auto", kCustomAuto);
@@ -88,6 +94,16 @@ public class RobotContainer {
         new JoystickButton(alternateController, XboxController.Button.kB.value)
                 .whenPressed(new InstantCommand(climb::startClimbing, climb))
                 .whenReleased(new InstantCommand(climb::stopClimbing, climb));
+
+        new JoystickButton(alternateController, XboxController.Button.kA.value)
+                .whenPressed(new InstantCommand(() -> {
+                    if (climbReversalEnabledEntry.getBoolean(false)) {
+                        climb.startDescending();
+                    }
+                }, climb))
+                .whenReleased(new InstantCommand(climb::stopClimbing, climb));
+
+
     }
 
     public Command getAutonomousCommand() {

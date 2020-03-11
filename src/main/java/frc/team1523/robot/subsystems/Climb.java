@@ -24,4 +24,8 @@ public class Climb extends SubsystemBase {
     public void stopClimbing() {
         setMotorPower(0);
     }
+
+    public void startDescending() {
+        setMotorPower(-1);
+    }
 }
