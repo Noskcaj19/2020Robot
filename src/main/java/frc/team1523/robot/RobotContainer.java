@@ -54,8 +54,8 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(new DefaultDriveCommand(primaryController, drivetrain));
 
         intake.setDefaultCommand(new RunCommand(() -> {
-            intake.setIntakeSpeed(-alternateController.getY(GenericHID.Hand.kLeft));
-            double raw = -alternateController.getY(GenericHID.Hand.kRight);
+            intake.setIntakeSpeed(-deadband(alternateController.getY(GenericHID.Hand.kLeft)));
+            double raw = -deadband(alternateController.getY(GenericHID.Hand.kRight));
             double wrist = Math.copySign(Math.pow(raw, 2), raw);
 
             intake.setWristSetpoint(intake.getWristSetpoint() + (wrist * 6));
@@ -66,6 +66,14 @@ public class RobotContainer {
 //        }, shooter));
 
         CameraServer.getInstance().startAutomaticCapture();
+    }
+
+    private double deadband(double value) {
+        if (Math.abs(value)> .07) {
+            return value;
+        } else {
+            return 0;
+        }
     }
 
     private void configureButtonBindings() {

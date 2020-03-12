@@ -1,6 +1,7 @@
 package frc.team1523.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -14,8 +15,13 @@ public class Intake extends PIDSubsystem {
 
     private final Encoder wristEncoder = new Encoder(4, 5);
 
+    private final NetworkTableEntry wristSetpointEntry =
+            Shuffleboard.getTab("Debug")
+                    .add("Wrist Setpoint", 0.0)
+                    .getEntry();
+
     public Intake() {
-        super(new PIDController(0.0256, 0.0, 0.0));
+        super(new PIDController(0.0296, 0.0, 0.0));
         enable();
         Shuffleboard.getTab("Debug").add("Wrist PID", getController());
         Shuffleboard.getTab("Debug").add("Wrist Position", wristEncoder);
@@ -32,6 +38,12 @@ public class Intake extends PIDSubsystem {
 
     public void setWristSetpoint(double setpoint) {
         setSetpoint(MathUtil.clamp(setpoint, 0, Constants.IntakeConstants.kWristRange));
+    }
+
+    @Override
+    public void periodic() {
+        super.periodic();
+        wristSetpointEntry.setDouble(getWristSetpoint());
     }
 
     @Override
