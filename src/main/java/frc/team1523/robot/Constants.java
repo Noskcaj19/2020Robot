@@ -11,9 +11,18 @@ public final class Constants {
     }
 
     public static final class ShooterConstants {
+        public static final double kP = .012;
+        public static final double kI = 0.001320;
+        public static final double kD = .00112;
+
+        public static final double kShooterFreeRPS = 5600;
+
+        public static final double kSVolts = 0.147;
+        public static final double kVVoltSecondsPerRotation =
+                // Should have value 12V at free speed...
+                12.0 / kShooterFreeRPS;
+
         // The minimum speed of the flywheel before we start loading balls
-        public static final int kShooterSpeedThreshold = 5000;
-        public static final int kFlywheelSpeed = 1;
     }
 
     public static final class LimelightConstants {
